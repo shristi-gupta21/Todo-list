@@ -16,6 +16,12 @@ export const Todo = () => {
   const handleChange = (e) => {
     setInputValue(e.target.value);
   };
+  const handleButtonClick = (e) => {
+    setdata((prev) => {
+      return [...prev, { msg: inputValue }];
+    });
+    setInputValue("");
+  };
 
   return (
     <>
@@ -35,7 +41,7 @@ export const Todo = () => {
                 value={inputValue}
                 placeholder="Create a new to-do"
               />
-              <button type="submit" onClick={click} className=" bg-slate-300 h-12 w-12 rounded-full">+</button>
+              <button type="submit" onClick={handleButtonClick} className=" bg-slate-300 flex items-center  justify-center text-3xl h-12 w-12 rounded-full">+</button>
             </div>
           </div>
         </div>
