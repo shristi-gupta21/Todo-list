@@ -14,14 +14,15 @@ export const Todo = () => {
 
     return () => clearInterval(intervalId);
   }, []); 
-  const click = (e) => {
+  const click = (e,index) => {
     if (e.key === "Enter" && e.target.value !== "") {
       setInputValue("");
       setdata((prev) => {
-        return [...prev, { msg: e.target.value }];
+        return [...prev, { msg: e.target.value, key: index }];
       });
     }
   };
+  // console.log("data", data)
   const handleChange = (e) => {
     setInputValue(e.target.value);
   };
@@ -32,6 +33,18 @@ export const Todo = () => {
     setInputValue("");
   };
 
+  const handleDelete = (index) =>{
+    let listItem = document.getElementById(`list-item-${index}`)
+    listItem.style.display = 'none'
+
+    let updData = data.filter(item => {
+      return item.msg !== data[index].msg
+    })
+    console.log("index",index,"updData",updData)
+    setdata(updData)
+  }
+  
+  // console.log(data)
   return (
     <>
       <div className="h-72 md:h-96 z-10 relative">
@@ -66,10 +79,12 @@ export const Todo = () => {
         {data.map((item, index) => (
           <div
             key={index}
+            id={`list-item-${index}`}
             className="col-span-1 whitespace-normal min-w-[18.5rem] flex gap-4 h-fit bg-blue-300 p-4 md:p-5 rounded-lg shadow-md"
           >
             <input type="checkbox" id="" className=" scale-125" />{" "}
             <p className=" capitalize">{item.msg}</p>
+            <button className="px-2 bg-slate-400 h-fit w-fit" onClick={()=>handleDelete(index)}>-</button>
           </div>
         ))}
       </div>
