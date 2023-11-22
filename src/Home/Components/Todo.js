@@ -1,10 +1,19 @@
 import React from "react";
 import "../styles.css";
-import { useState } from "react";
+import { useState,useEffect } from "react";
 
 export const Todo = () => {
   const [data, setdata] = useState([]);
   const [inputValue, setInputValue] = useState("");
+  const [currentDate, setCurrentDate] = useState(new Date());
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentDate(new Date());
+    }, 24 * 60 * 60 * 1000);
+
+    return () => clearInterval(intervalId);
+  }, []); 
   const click = (e) => {
     if (e.key === "Enter" && e.target.value !== "") {
       setInputValue("");
@@ -22,12 +31,13 @@ export const Todo = () => {
     });
     setInputValue("");
   };
-  
+
   return (
     <>
       <div className="h-72 md:h-96 z-10 relative">
         <div className="fixed top-0 w-full left-0 h-72 md:h-96">
           <div className=" w-full relative  z-0  ">
+            <div className="text-white  absolute right-6 md:right-8 top-6 md:top-8 font-bold text-sm md:text-lg">{currentDate.toDateString()}</div>
             <div className=" bg-black w-full z-0 h-72 md:h-96"></div>
             <div className="w-full h-full top-0 opacity-20 absolute bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
             <h1 className="text-white w-full text-center font-bold text-3xl md:text-6xl absolute bottom-16  uppercase tracking-widest">
@@ -41,15 +51,25 @@ export const Todo = () => {
                 value={inputValue}
                 placeholder="Create a new to-do"
               />
-              <button type="submit" onClick={handleButtonClick} className=" bg-slate-300 text-2xl h-12 w-12 rounded-full shadow-sm">+</button>
+              <button
+                type="submit"
+                onClick={handleButtonClick}
+                className=" bg-slate-300 text-2xl h-12 w-12 rounded-full shadow-sm"
+              >
+                +
+              </button>
             </div>
           </div>
         </div>
       </div>
-      <div className=" relative z-0 max-w-6xl mx-auto flex justify-center md:justify-start flex-wrap pt-12 md:pt-20 gap-4 md:gap-6">
-        {data.map((item,index) => (
-          <div key={index} className="col-span-1 whitespace-normal min-w-[20rem] flex gap-4 h-fit bg-zinc-400 p-4 md:p-5 rounded-lg shadow-md">
-            <input type="checkbox" id="" className=" scale-125" /> <p className=" capitalize">{item.msg}</p> 
+      <div className="px-4 md:px-0 pb-8 md:pb-12 relative z-0 max-w-7xl mx-auto flex justify-center md:justify-start flex-wrap pt-12 md:pt-20 gap-4 md:gap-6">
+        {data.map((item, index) => (
+          <div
+            key={index}
+            className="col-span-1 whitespace-normal min-w-[18.5rem] flex gap-4 h-fit bg-blue-300 p-4 md:p-5 rounded-lg shadow-md"
+          >
+            <input type="checkbox" id="" className=" scale-125" />{" "}
+            <p className=" capitalize">{item.msg}</p>
           </div>
         ))}
       </div>
