@@ -23,6 +23,11 @@ export const Todo = () => {
     setInputValue("");
   };
 
+  const [isChecked, setIsChecked] = useState(null);
+
+  const handleCheckboxChange = (index) => {
+    setIsChecked(index); // Toggle the checked state
+  };
   return (
     <>
       <div className="h-72 md:h-96">
@@ -47,9 +52,9 @@ export const Todo = () => {
         </div>
       </div>
       <div className="max-w-6xl mx-auto flex flex-wrap pt-20 gap-6">
-        {data.map((item) => (
-          <div className="col-span-1 whitespace-normal w-80 h-fit bg-zinc-400 capitalize p-5 rounded-lg">
-            {item.msg}
+        {data.map((item,index) => (
+          <div key={index} className="col-span-1 whitespace-normal w-80 flex gap-4 h-fit bg-zinc-400   p-5 rounded-lg">
+            <input checked={isChecked === index} onChange={()=>handleCheckboxChange(index)} type="checkbox" id="" /> <p className=" capitalize">{item.msg}</p> 
           </div>
         ))}
       </div>
