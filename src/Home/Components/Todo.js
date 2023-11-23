@@ -1,13 +1,15 @@
 import React from "react";
 import "../styles.css";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import Task from "../Layouts/Task";
-import AddIcon from '@mui/icons-material/Add';
+import AddIcon from "@mui/icons-material/Add";
+import EditIcon from "@mui/icons-material/Edit";
 
 export const Todo = () => {
   const [data, setData] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [currentDate, setCurrentDate] = useState(new Date());
+  const [clickUpdate, setClickUpdate] = useState(null);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -15,40 +17,60 @@ export const Todo = () => {
     }, 24 * 60 * 60 * 1000);
 
     return () => clearInterval(intervalId);
-  }, []); 
-  const click = (e,index) => {
-    if (e.key === "Enter" && e.target.value !== "") {
+  }, []);
+  const click = (e, index) => {
+    if (!clickUpdate && e.key === "Enter" && e.target.value !== "") {
       setInputValue("");
       setData((prev) => {
-        return [...prev, { msg: e.target.value, key: index }];
+        return [...prev, { msg: e.target.value }];
       });
+    }else if(clickUpdate && e.key === "Enter" && e.target.value !== ""){
+      setClickUpdate("");
+      console.log(clickUpdate);
+      data[clickUpdate].msg = inputValue;
+      setData(data);
+      setInputValue("");
     }
   };
-  // console.log("data", data)
+
   const handleChange = (e) => {
     setInputValue(e.target.value);
   };
   const handleButtonClick = (e) => {
+    setClickUpdate(null);
     setData((prev) => {
       return [...prev, { msg: inputValue }];
     });
     setInputValue("");
   };
 
-  const handleDelete = (index) =>{
-    let updData = data.filter(item => {
-       return item.msg !== data[index].msg ? data[index]:"" 
-    })
-    setData(updData)
-  }
-  
-  // console.log(data)
+  const handleDelete = (index) => {
+    let updData = data.filter((item) => {
+      return item.msg !== data[index].msg ? data[index] : "";
+    });
+    setData(updData);
+  };
+
+  const handleUpdate = (index) => {
+    setClickUpdate(index);
+    setInputValue(data[index].msg);
+  };
+
+  const onUpdateClick = (e) => {
+      setClickUpdate("");
+      data[clickUpdate].msg = inputValue;
+      setData(data);
+      setInputValue("");
+  };
+
   return (
     <>
       <div className="h-72 md:h-96 z-10 relative">
         <div className="fixed top-0 w-full left-0 h-72 md:h-96">
           <div className=" w-full relative  z-0  ">
-            <div className="text-white  absolute right-6 md:right-8 top-6 md:top-8 font-bold text-sm md:text-lg">{currentDate.toDateString()}</div>
+            <div className="text-white  absolute right-6 md:right-8 top-6 md:top-8 font-bold text-sm md:text-lg">
+              {currentDate.toDateString()}
+            </div>
             <div className=" bg-black w-full z-0 h-72 md:h-96"></div>
             <div className="w-full h-full top-0 opacity-20 absolute bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
             <h1 className="text-white w-full text-center font-bold text-3xl md:text-6xl absolute bottom-16  uppercase tracking-widest">
@@ -62,20 +84,37 @@ export const Todo = () => {
                 value={inputValue}
                 placeholder="Create a new to-do"
               />
-              <button
-                type="submit"
-                onClick={handleButtonClick}
-                className=" bg-slate-300 h-12 w-12 rounded-full shadow-sm"
-              >
-                <AddIcon/>
-              </button>
+              {clickUpdate ? (
+                <button
+                  type="submit"
+                  onKeyPress={click}
+                  onClick={onUpdateClick}
+                  className=" bg-slate-300 h-12 w-12 rounded-full shadow-sm"
+                >
+                  <EditIcon/>
+                </button>
+              ) : (
+                <button
+                  type="submit"
+                  onClick={handleButtonClick}
+                  className=" bg-slate-300 h-12 w-12 rounded-full shadow-sm"
+                >
+                  <AddIcon />
+                </button>
+              )}
             </div>
           </div>
         </div>
       </div>
       <div className="px-4 md:px-0 pb-8 md:pb-12 relative z-0 max-w-7xl mx-auto flex justify-center md:justify-start flex-wrap pt-12 md:pt-20 gap-4 md:gap-6">
         {data.map((item, index) => (
-            <Task onClick={() => handleDelete(index)} task={item.msg} index={index}/>
+          <Task
+            key={index}
+            onClickDelete={() => handleDelete(index)}
+            task={item.msg}
+            index={index}
+            onClickUpdate={() => handleUpdate(index)}
+          />
         ))}
       </div>
     </>

@@ -1,6 +1,7 @@
 import React from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
 import IconButton from "@mui/material/IconButton";
+import EditIcon from "@mui/icons-material/Edit";
 const Task = (props) => {
   return (
     <div
@@ -9,18 +10,22 @@ const Task = (props) => {
       className="col-span-1 whitespace-normal min-w-[18.5rem] flex h-fit bg-blue-300 p-4 md:p-5 rounded-lg shadow-md"
     >
       <div className="flex items-center gap-4">
-      <input type="checkbox" id="" className=" scale-125" />{" "}
-      <p className="capitalize">{props.task}</p>
+        <input type="checkbox" id="" className=" scale-125" />{" "}
+        <p className="capitalize">{props.task}</p>
       </div>
       <div className="w-full flex justify-end items-start">
-        <button
-          className="px-2 "
-          onClick={props.onClick}
-        >
+        <button className="px-2 " onClick={props.onClickDelete}>
           <div>
-          <IconButton aria-label="delete" size="small">
-            <DeleteIcon fontSize="small" />
-          </IconButton>
+            <IconButton aria-label="delete" size="small">
+              <DeleteIcon fontSize="small" />
+            </IconButton>
+          </div>
+        </button>
+        <button onClick={props.onClickUpdate}>
+          <div>
+            <IconButton aria-label="edit" size="small">
+                <EditIcon fontSize="small" />
+            </IconButton>
           </div>
         </button>
       </div>
