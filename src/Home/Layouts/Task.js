@@ -14,7 +14,7 @@ const Task = (props) => {
         <p className="capitalize">{props.task}</p>
       </div>
       <div className="w-full flex justify-end items-start">
-        <button className="px-2 " onClick={props.onClickDelete}>
+        <button onClick={props.onClickDelete}>
           <div>
             <IconButton aria-label="delete" size="small">
               <DeleteIcon fontSize="small" />
