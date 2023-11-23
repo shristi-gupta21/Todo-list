@@ -1,5 +1,4 @@
 import React from "react";
-import "../styles.css";
 import { useState, useEffect } from "react";
 import Task from "../Layouts/Task";
 import AddIcon from "@mui/icons-material/Add";
@@ -18,15 +17,15 @@ export const Todo = () => {
 
     return () => clearInterval(intervalId);
   }, []);
+
   const click = (e, index) => {
     if (!clickUpdate && e.key === "Enter" && e.target.value !== "") {
       setInputValue("");
       setData((prev) => {
         return [...prev, { msg: e.target.value }];
       });
-    }else if(clickUpdate && e.key === "Enter" && e.target.value !== ""){
+    } else if (clickUpdate && e.key === "Enter" && e.target.value !== "") {
       setClickUpdate("");
-      console.log(clickUpdate);
       data[clickUpdate].msg = inputValue;
       setData(data);
       setInputValue("");
@@ -52,17 +51,21 @@ export const Todo = () => {
   };
 
   const handleUpdate = (index) => {
+    if (index === 0) {
+      setClickUpdate(0);
+    }
     setClickUpdate(index);
     setInputValue(data[index].msg);
+    console.log("data", data, "onUpdateClick", clickUpdate);
   };
 
   const onUpdateClick = (e) => {
-      setClickUpdate("");
-      data[clickUpdate].msg = inputValue;
-      setData(data);
-      setInputValue("");
+    setClickUpdate("");
+    data[clickUpdate].msg = inputValue;
+    setData(data);
+    setInputValue("");
+    console.log("data", data, "onUpdateClick", clickUpdate);
   };
-
   return (
     <>
       <div className="h-72 md:h-96 z-10 relative">
@@ -91,7 +94,7 @@ export const Todo = () => {
                   onClick={onUpdateClick}
                   className=" bg-slate-300 h-12 w-12 rounded-full shadow-sm"
                 >
-                  <EditIcon/>
+                  <EditIcon />
                 </button>
               ) : (
                 <button
