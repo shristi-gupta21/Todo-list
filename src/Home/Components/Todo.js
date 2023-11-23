@@ -2,6 +2,7 @@ import React from "react";
 import "../styles.css";
 import { useState,useEffect } from "react";
 import Task from "../Layouts/Task";
+import AddIcon from '@mui/icons-material/Add';
 
 export const Todo = () => {
   const [data, setData] = useState([]);
@@ -64,9 +65,9 @@ export const Todo = () => {
               <button
                 type="submit"
                 onClick={handleButtonClick}
-                className=" bg-slate-300 text-2xl h-12 w-12 rounded-full shadow-sm"
+                className=" bg-slate-300 h-12 w-12 rounded-full shadow-sm"
               >
-                +
+                <AddIcon/>
               </button>
             </div>
           </div>
