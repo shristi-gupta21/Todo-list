@@ -1,9 +1,10 @@
 import React from "react";
 import "../styles.css";
 import { useState,useEffect } from "react";
+import Task from "../Layouts/Task";
 
 export const Todo = () => {
-  const [data, setdata] = useState([]);
+  const [data, setData] = useState([]);
   const [inputValue, setInputValue] = useState("");
   const [currentDate, setCurrentDate] = useState(new Date());
 
@@ -17,7 +18,7 @@ export const Todo = () => {
   const click = (e,index) => {
     if (e.key === "Enter" && e.target.value !== "") {
       setInputValue("");
-      setdata((prev) => {
+      setData((prev) => {
         return [...prev, { msg: e.target.value, key: index }];
       });
     }
@@ -27,21 +28,17 @@ export const Todo = () => {
     setInputValue(e.target.value);
   };
   const handleButtonClick = (e) => {
-    setdata((prev) => {
+    setData((prev) => {
       return [...prev, { msg: inputValue }];
     });
     setInputValue("");
   };
 
   const handleDelete = (index) =>{
-    let listItem = document.getElementById(`list-item-${index}`)
-    listItem.style.display = 'none'
-
     let updData = data.filter(item => {
-      return item.msg !== data[index].msg
+       return item.msg !== data[index].msg ? data[index]:"" 
     })
-    console.log("index",index,"updData",updData)
-    setdata(updData)
+    setData(updData)
   }
   
   // console.log(data)
@@ -77,15 +74,7 @@ export const Todo = () => {
       </div>
       <div className="px-4 md:px-0 pb-8 md:pb-12 relative z-0 max-w-7xl mx-auto flex justify-center md:justify-start flex-wrap pt-12 md:pt-20 gap-4 md:gap-6">
         {data.map((item, index) => (
-          <div
-            key={index}
-            id={`list-item-${index}`}
-            className="col-span-1 whitespace-normal min-w-[18.5rem] flex gap-4 h-fit bg-blue-300 p-4 md:p-5 rounded-lg shadow-md"
-          >
-            <input type="checkbox" id="" className=" scale-125" />{" "}
-            <p className=" capitalize">{item.msg}</p>
-            <button className="px-2 bg-slate-400 h-fit w-fit" onClick={()=>handleDelete(index)}>-</button>
-          </div>
+            <Task onClick={() => handleDelete(index)} task={item.msg} index={index}/>
         ))}
       </div>
     </>
