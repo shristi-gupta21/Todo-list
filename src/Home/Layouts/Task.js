@@ -17,9 +17,11 @@ const Task = (props) => {
           className="px-2 "
           onClick={props.onClick}
         >
+          <div>
           <IconButton aria-label="delete" size="small">
             <DeleteIcon fontSize="small" />
           </IconButton>
+          </div>
         </button>
       </div>
     </div>
