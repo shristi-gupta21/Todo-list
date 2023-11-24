@@ -7,25 +7,29 @@ import EditIcon from "@mui/icons-material/Edit";
 export const Todo = () => {
   const [data, setData] = useState([]);
   const [inputValue, setInputValue] = useState("");
-  const [currentDate, setCurrentDate] = useState(new Date());
+  const [currentDateTime, setCurrentDateTime] = useState(new Date());
   const [clickUpdate, setClickUpdate] = useState(null);
+  const [clickUpdateBtn, setClickUpdateBtn] = useState(false);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      setCurrentDate(new Date());
-    }, 24 * 60 * 60 * 1000);
-
+      setCurrentDateTime(new Date());
+    }, 1000);
     return () => clearInterval(intervalId);
   }, []);
 
-  const click = (e, index) => {
-    if (!clickUpdate && e.key === "Enter" && e.target.value !== "") {
+  const formattedTime = currentDateTime.toLocaleTimeString();
+  const options = { weekday: 'short', year: 'numeric', month: 'short', day: 'numeric' };
+  const formattedDate = currentDateTime.toLocaleDateString(undefined, options);
+  const click = (e) => {
+    if (!clickUpdateBtn && e.key === "Enter" && e.target.value !== "") {
       setInputValue("");
       setData((prev) => {
         return [...prev, { msg: e.target.value }];
       });
-    } else if (clickUpdate && e.key === "Enter" && e.target.value !== "") {
-      setClickUpdate("");
+    } else if (clickUpdateBtn && e.key === "Enter" && e.target.value !== "") {
+      setClickUpdate(null);
+      setClickUpdateBtn(false)
       data[clickUpdate].msg = inputValue;
       setData(data);
       setInputValue("");
@@ -37,6 +41,7 @@ export const Todo = () => {
   };
   const handleButtonClick = (e) => {
     setClickUpdate(null);
+    setClickUpdateBtn(false)
     setData((prev) => {
       return [...prev, { msg: inputValue }];
     });
@@ -51,28 +56,26 @@ export const Todo = () => {
   };
 
   const handleUpdate = (index) => {
-    if (index === 0) {
-      setClickUpdate(0);
-    }
+    setClickUpdateBtn(true)
     setClickUpdate(index);
     setInputValue(data[index].msg);
-    console.log("data", data, "onUpdateClick", clickUpdate);
   };
 
   const onUpdateClick = (e) => {
-    setClickUpdate("");
+    setClickUpdate(null);
+    setClickUpdateBtn(false)
     data[clickUpdate].msg = inputValue;
     setData(data);
     setInputValue("");
-    console.log("data", data, "onUpdateClick", clickUpdate);
   };
+
   return (
     <>
       <div className="h-72 md:h-96 z-10 relative">
         <div className="fixed top-0 w-full left-0 h-72 md:h-96">
           <div className=" w-full relative  z-0  ">
             <div className="text-white  absolute right-6 md:right-8 top-6 md:top-8 font-bold text-sm md:text-lg">
-              {currentDate.toDateString()}
+              {formattedDate+ "  " +formattedTime}
             </div>
             <div className=" bg-black w-full z-0 h-72 md:h-96"></div>
             <div className="w-full h-full top-0 opacity-20 absolute bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
@@ -87,7 +90,7 @@ export const Todo = () => {
                 value={inputValue}
                 placeholder="Create a new to-do"
               />
-              {clickUpdate ? (
+              {clickUpdateBtn ? (
                 <button
                   type="submit"
                   onKeyPress={click}
