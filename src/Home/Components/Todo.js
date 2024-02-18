@@ -3,29 +3,14 @@ import { useState, useEffect } from "react";
 import Task from "../Layouts/Task";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
+import { Time } from "./Time";
 
 export const Todo = () => {
   const [data, setData] = useState([]);
   const [inputValue, setInputValue] = useState("");
-  const [currentDateTime, setCurrentDateTime] = useState(new Date());
   const [clickUpdate, setClickUpdate] = useState(null);
   const [clickUpdateBtn, setClickUpdateBtn] = useState(false);
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      setCurrentDateTime(new Date());
-    }, 1000);
-    return () => clearInterval(intervalId);
-  }, []);
-
-  const formattedTime = currentDateTime.toLocaleTimeString();
-  const options = {
-    weekday: "short",
-    year: "numeric",
-    month: "short",
-    day: "numeric",
-  };
-  const formattedDate = currentDateTime.toLocaleDateString(undefined, options);
   const handleEditTodo = (e) => {
     if (!clickUpdateBtn && e.key === "Enter" && e.target.value !== "") {
       setInputValue("");
@@ -87,9 +72,7 @@ export const Todo = () => {
       <div className="h-72 md:h-96 z-10 relative">
         <div className="fixed top-0 w-full left-0 h-72 md:h-96">
           <div className=" w-full relative  z-0  ">
-            <div className="text-white  absolute right-6 md:right-8 top-6 md:top-8 font-bold text-sm md:text-lg">
-              {formattedDate + "  " + formattedTime}
-            </div>
+            <Time />
             <div className=" bg-black w-full z-0 h-72 md:h-96"></div>
             <div className="w-full h-full top-0 opacity-20 absolute bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"></div>
             <h1 className="text-white w-full text-center font-bold text-3xl md:text-6xl absolute bottom-16  uppercase tracking-widest">
