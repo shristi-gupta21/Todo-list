@@ -28,28 +28,21 @@ export const Todo = () => {
     e.preventDefault();
     setClickUpdate(null);
     setClickUpdateBtn(false);
-    if (inputValue !== "") {
-      data[clickUpdate].msg = inputValue;
-      setData(data);
-      setInputValue("");
-    } else {
-      window.alert("write something");
-    }
+    data[clickUpdate].msg = inputValue;
+    setData(data);
+    setInputValue("");
   };
 
   const handleAddTodo = (e) => {
     e.preventDefault();
     setClickUpdate(null);
     setClickUpdateBtn(false);
-    if (inputValue === "") {
-      window.alert("Write your task");
-    } else {
-      setData((prev) => {
-        return [...prev, { msg: inputValue }];
-      });
-      setInputValue("");
-    }
-    console.log(inputValue);
+    console.log("inputValue", inputValue, inputValue.length);
+
+    setData((prev) => {
+      return [...prev, { msg: inputValue }];
+    });
+    setInputValue("");
   };
 
   const handleDelete = (index) => {

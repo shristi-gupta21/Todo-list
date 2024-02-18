@@ -10,6 +10,7 @@ const TaskInput = ({
   setInputValue,
   inputValue,
 }) => {
+  console.log(inputValue);
   return (
     <form
       onSubmit={clickUpdateBtn ? onUpdateClick : handleAddTodo}
@@ -17,20 +18,23 @@ const TaskInput = ({
     >
       <input
         className=" h-12 md:w-[30rem] shadow-sm rounded-lg bg-slate-300 px-4 placeholder:px-4 focus:outline-none"
-        onKeyPress={handleEditTodo}
+        onKeyDown={handleEditTodo}
         onChange={(e) => setInputValue(e.target.value)}
         value={inputValue}
         placeholder="Create a new to-do"
       />
       {clickUpdateBtn ? (
         <button
-          onKeyPress={handleEditTodo}
-          className=" bg-slate-300 h-12 w-12 rounded-full shadow-sm"
+          disabled={inputValue === ""}
+          className=" bg-slate-300 h-12 w-12 rounded-full shadow-sm flex justify-center items-center disabled:bg-slate-300/60 disabled:text-black/70 disabled:cursor-not-allowed"
         >
-          <EditIcon />
+          <EditIcon onKeyDown={handleEditTodo} />
         </button>
       ) : (
-        <button className=" bg-slate-300 h-12 w-12 rounded-full shadow-sm">
+        <button
+          disabled={inputValue === ""}
+          className="  bg-slate-300 h-12 w-12 rounded-full shadow-sm  flex justify-center items-center disabled:bg-slate-300/60 disabled:text-black/70 disabled:cursor-not-allowed"
+        >
           <AddIcon />
         </button>
       )}
