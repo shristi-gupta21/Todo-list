@@ -1,10 +1,8 @@
 import React from "react";
-import { useState, useEffect } from "react";
-import Task from "../Layouts/Task";
-import AddIcon from "@mui/icons-material/Add";
-import EditIcon from "@mui/icons-material/Edit";
+import { useState } from "react";
 import Time from "./Time";
 import TaskList from "./TaskList";
+import TaskInput from "./TaskInput";
 
 export const Todo = () => {
   const [data, setData] = useState([]);
@@ -24,6 +22,18 @@ export const Todo = () => {
       data[clickUpdate].msg = inputValue;
       setData(data);
       setInputValue("");
+    }
+  };
+  const onUpdateClick = (e) => {
+    e.preventDefault();
+    setClickUpdate(null);
+    setClickUpdateBtn(false);
+    if (inputValue !== "") {
+      data[clickUpdate].msg = inputValue;
+      setData(data);
+      setInputValue("");
+    } else {
+      window.alert("write something");
     }
   };
 
@@ -55,19 +65,6 @@ export const Todo = () => {
     setInputValue(data[index].msg);
   };
 
-  const onUpdateClick = (e) => {
-    e.preventDefault();
-    setClickUpdate(null);
-    setClickUpdateBtn(false);
-    if (inputValue !== "") {
-      data[clickUpdate].msg = inputValue;
-      setData(data);
-      setInputValue("");
-    } else {
-      window.alert("write something");
-    }
-  };
-
   return (
     <>
       <div className="h-72 md:h-96 z-10 relative">
@@ -79,30 +76,14 @@ export const Todo = () => {
             <h1 className="text-white w-full text-center font-bold text-3xl md:text-6xl absolute bottom-16  uppercase tracking-widest">
               To-Do List
             </h1>
-            <form
-              onSubmit={clickUpdateBtn ? onUpdateClick : handleAddTodo}
-              className="left-1/2 flex gap-3 md:gap-5 -translate-x-1/2 absolute bottom-0 translate-y-1/2 "
-            >
-              <input
-                className=" h-12 md:w-[30rem] shadow-sm rounded-lg bg-slate-300 px-4 placeholder:px-4 focus:outline-none"
-                onKeyPress={handleEditTodo}
-                onChange={(e) => setInputValue(e.target.value)}
-                value={inputValue}
-                placeholder="Create a new to-do"
-              />
-              {clickUpdateBtn ? (
-                <button
-                  onKeyPress={handleEditTodo}
-                  className=" bg-slate-300 h-12 w-12 rounded-full shadow-sm"
-                >
-                  <EditIcon />
-                </button>
-              ) : (
-                <button className=" bg-slate-300 h-12 w-12 rounded-full shadow-sm">
-                  <AddIcon />
-                </button>
-              )}
-            </form>
+            <TaskInput
+              handleEditTodo={handleEditTodo}
+              clickUpdateBtn={clickUpdateBtn}
+              onUpdateClick={onUpdateClick}
+              handleAddTodo={handleAddTodo}
+              setInputValue={setInputValue}
+              inputValue={inputValue}
+            />
           </div>
         </div>
       </div>
