@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Task from "../Layouts/Task";
 import AddIcon from "@mui/icons-material/Add";
 import EditIcon from "@mui/icons-material/Edit";
-import { Time } from "./Time";
+import Time from "./Time";
 
 export const Todo = () => {
   const [data, setData] = useState([]);

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 
-export const Time = () => {
+const Time = () => {
   const [currentDateTime, setCurrentDateTime] = useState(new Date());
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -23,3 +23,4 @@ export const Time = () => {
     </div>
   );
 };
+export default memo(Time);
