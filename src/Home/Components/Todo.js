@@ -24,6 +24,7 @@ export const Todo = () => {
       setInputValue("");
     }
   };
+
   const onUpdateClick = (e) => {
     e.preventDefault();
     setClickUpdate(null);
