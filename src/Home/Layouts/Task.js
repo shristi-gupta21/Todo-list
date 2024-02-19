@@ -6,19 +6,22 @@ const Task = (props) => {
   const [toggleBtn, setToggleBtn] = useState(false);
   console.log("toggleBtn", toggleBtn);
   return (
-    <button
+    <div
       key={props.index}
       id={`list-item-${props.index}`}
-      className={`col-span-1 whitespace-normal min-w-[18.5rem] min-h-[4rem] flex bg-blue-300 items-center px-4 rounded-lg shadow-md relative`}
-      onClick={() => setToggleBtn(!toggleBtn)}
+      className={`col-span-1 whitespace-normal min-w-[18.5rem] min-h-[4rem] flex justify-between bg-blue-300 items-center px-2 rounded-lg shadow-md relative`}
     >
       {toggleBtn && (
         <div className="h-1 w-3/5 top-1/2 -translate-y-1/2 bg-yellow-300/60 absolute"></div>
       )}
-      <div className="w-full flex items-center">
-        <p className="capitalize">{props.task}</p>
-      </div>
-      <div className="w-full flex justify-end items-start">
+
+      <button
+        className="capitalize w-2/3 py-2 flex items-center "
+        onClick={() => setToggleBtn(!toggleBtn)}
+      >
+        {props.task}
+      </button>
+      <div className="w-1/3">
         <button onClick={props.onClickDelete}>
           <div>
             <IconButton aria-label="delete" size="small">
@@ -34,7 +37,7 @@ const Task = (props) => {
           </div>
         </button>
       </div>
-    </button>
+    </div>
   );
 };
 export default memo(Task);
