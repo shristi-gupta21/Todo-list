@@ -47,11 +47,14 @@ export const Todo = () => {
   };
 
   const handleDelete = (index) => {
-    let updData = data.filter((item) => {
-      return item.msg !== data[index].msg ? data[index] : "";
-    });
-    setData(updData);
-    setInputValue("");
+    if (clickUpdateBtn) {
+      window.alert("you cannot delete data while updating!");
+    } else {
+      let updData = data.filter((item) => {
+        return item.msg !== data[index].msg ? data[index] : "";
+      });
+      setData(updData);
+    }
   };
 
   const handleUpdate = (index) => {

@@ -14,12 +14,12 @@ const Task = (props) => {
       )}
 
       <button
-        className="capitalize w-2/3 py-2 px-4 flex items-center "
+        className="capitalize w-3/4 py-2 px-4 flex items-center "
         onClick={() => setToggleBtn(!toggleBtn)}
       >
         {props.task}
       </button>
-      <div className="w-1/3 flex gap-4">
+      <div className="w-1/4 flex gap-4">
         <button onClick={props.onClickDelete}>
           <div>
             <DeleteIcon aria-label="delete" fontSize="small" />
