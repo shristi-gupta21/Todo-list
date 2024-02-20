@@ -51,6 +51,7 @@ export const Todo = () => {
       return item.msg !== data[index].msg ? data[index] : "";
     });
     setData(updData);
+    setInputValue("");
   };
 
   const handleUpdate = (index) => {
