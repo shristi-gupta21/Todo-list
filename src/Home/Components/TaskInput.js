@@ -10,7 +10,6 @@ const TaskInput = ({
   setInputValue,
   inputValue,
 }) => {
-  console.log(inputValue);
   return (
     <form
       onSubmit={clickUpdateBtn ? onUpdateClick : handleAddTodo}
